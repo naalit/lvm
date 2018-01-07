@@ -6,7 +6,7 @@ import System.Console.Readline
 import Data.Char (isDigit)
 import Control.Monad
 
-data Expr = Var String | App Expr Expr | Nat Int | Lam String Expr | Boolean Bool
+data Expr = Var String | App Expr Expr | Nat Int | Lam String Expr | Boolean Bool | IR Expr -- IR is irreducible, for Reduce
     deriving Eq
 instance Show Expr where
     show (Var x) = '\'':x ++ "' : Symbol"
@@ -14,6 +14,7 @@ instance Show Expr where
     show (App f x) = '(':(show f) ++ ") (" ++ show x ++ ")"
     show (Lam x e) = "\\" ++ x ++ " -> " ++ show e
     show (Boolean x) = show x ++ " : Bool"
+    show (IR x) = show x
 
 space :: Parser ()
 space = void $ many $ oneOf " \t"

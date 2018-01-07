@@ -1,5 +1,5 @@
 import LVM.Parse
-import LVM.Reduce
+import LVM.Reduce2
 import System.Console.Readline
 import Data.Map as Map
 
