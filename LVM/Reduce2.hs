@@ -9,6 +9,16 @@ reduce env (IR expr) = IR expr
 reduce env (Var name) = case M.lookup name env of
     Nothing -> Var name
     Just x  -> x
+reduce env (Lam f (Lam x z)) = case z of
+    Var a -> if a == x then Nat 0 else Lam f (Lam x z)
+    App (Var a) b -> if a == f then case b of
+            Var n -> if n == x then Nat 1 else Lam f (Lam x z)
+            App a' b' -> let n = reduce (M.delete f (M.delete x env)) (Lam f (Lam x (App a' b'))) in case n of
+                Nat i -> Nat (i + 1)
+                i -> Lam f (Lam x (App (Var a) n))
+            q -> Lam f (Lam x z)
+        else Lam f (Lam x z)
+    q -> Lam f (Lam x z)
 reduce env (Lam free body) = case M.lookup free env of
     Nothing -> Lam free (reduce env body)
     Just x  -> Lam free (reduce (M.delete free env) body)
