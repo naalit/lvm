@@ -9,9 +9,9 @@ import Control.Monad
 data Expr = Var String | App Expr Expr | Nat Int | Lam String Expr | Boolean Bool | IR Expr -- IR is irreducible, for Reduce
     deriving Eq
 instance Show Expr where
-    show (Var x) = '\'':x ++ "' : Symbol"
+    show (Var x) = x
     show (Nat x) = show x ++ " : Nat"
-    show (App f x) = '(':(show f) ++ ") (" ++ show x ++ ")"
+    show (App f x) = (show f) ++ " (" ++ show x ++ ")"
     show (Lam x e) = "\\" ++ x ++ " -> " ++ show e
     show (Boolean x) = show x ++ " : Bool"
     show (IR x) = show x
